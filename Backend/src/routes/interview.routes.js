@@ -1,7 +1,7 @@
 const express = require("express")
-const authMiddleware = require("../middleware/auth.middleware")
-const interviewController = require("../controllers/interview.controller")
-const upload = require("../middleware/file.middleware")
+const authMiddleware = require("../middleware/auth.middleware.s")
+const interviewController = require("../controllers/interview.controller.js")
+const upload = require("../middleware/file.middleware.js")
 
 const interviewRouter = express.Router()
 
