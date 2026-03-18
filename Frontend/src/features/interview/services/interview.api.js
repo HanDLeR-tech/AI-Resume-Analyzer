@@ -5,6 +5,8 @@ const api = axios.create({
     withCredentials: true,
 });
 
+console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
+
 
 /**
  * 
