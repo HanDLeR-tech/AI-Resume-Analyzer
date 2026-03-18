@@ -5,9 +5,14 @@ const cors = require("cors");
 
 
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials:true
-}))
+    origin: [
+        "http://localhost:5173",
+        "https://your-frontend.vercel.app"
+    ],
+    credentials: true
+}));
+
+
 app.use(express.json());//allows to read data from the req body
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -20,6 +25,10 @@ const interviewRouter = require("./routes/interview.routes.js");
 app.use("/api/auth", authRouter);
 app.use("/api/interview", interviewRouter);
 
+
+app.get("/", (req, res) => {
+    res.send("API is running 🚀");
+});
 
 
 
