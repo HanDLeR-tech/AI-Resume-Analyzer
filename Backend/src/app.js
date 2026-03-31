@@ -7,7 +7,8 @@ const cors = require("cors");
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        "https://ai-resume-analyzer-gray-gamma.vercel.app"
+        "https://ai-resume-analyzer-gray-gamma.vercel.app",
+        "https://ai-resume-analyzer-git-main-handler-techs-projects.vercel.app"
     ],
     credentials: true
 }));
