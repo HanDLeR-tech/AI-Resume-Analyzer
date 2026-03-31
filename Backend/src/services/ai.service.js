@@ -1,5 +1,6 @@
 const { GoogleGenAI } = require("@google/genai");
-const puppeteer = require("puppeteer");
+const chromium = require("@sparticuz/chromium");
+const puppeteer = require("puppeteer-core");
 const { z } = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
 
@@ -101,35 +102,35 @@ ${jobDescription}
 }
 
 async function generatePdfFromHtml(htmlContent) {
-  const browser = await puppeteer.launch({
-    headless: "new",
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-gpu"
-    ]
-  });
-
-  const page = await browser.newPage();
-
-  await page.setContent(htmlContent, {
-    waitUntil: "networkidle0"
-  });
-
-  const pdfBuffer = await page.pdf({
-    format: "A4",
-    margin: {
-      top: "20mm",
-      bottom: "20mm",
-      left: "15mm",
-      right: "15mm"
-    }
-  });
-
-  await browser.close();
-
-  return pdfBuffer;
+  let browser = null;
+  try {
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+    });
+ 
+    const page = await browser.newPage();
+ 
+    await page.setContent(htmlContent, {
+      waitUntil: "networkidle0",
+    });
+ 
+    const pdfBuffer = await page.pdf({
+      format: "A4",
+      margin: {
+        top: "20mm",
+        bottom: "20mm",
+        left: "15mm",
+        right: "15mm",
+      },
+    });
+ 
+    return pdfBuffer;
+  } finally {
+    if (browser) await browser.close();
+  }
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
