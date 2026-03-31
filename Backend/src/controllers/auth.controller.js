@@ -45,7 +45,7 @@ async function registerUserController(req, resp) {
         {expiresIn:"1d"}
     )
 
-res.cookie("token", token, {
+resp.cookie("token", token, {
     httpOnly: true,
     secure: true,        // required for HTTPS
     sameSite: "None",    // VERY IMPORTANT
@@ -95,7 +95,11 @@ async function loginUserController(req, resp) {
         {expiresIn:"1d"}
     )
 
-    resp.cookie("token", token);
+   resp.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None"
+});
 
     return resp.status(200).json({
         message: "User Succesfully Logged In",
